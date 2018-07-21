@@ -1,0 +1,17 @@
+- name: "Create a network"
+  docker_network:
+     name: "mysql-cluster"
+     
+- name: "create mysql-master"
+  docker_container:
+     name: mysql-master
+     image: mysql:5.7
+     networks:
+       - name: "mysql-cluster"
+     env:
+       MYSQL_ROOT_PASSWORD=root
+     volumes:
+       - ./data/mysql-master:/var/lib/mysql/
+       - ./config/mysql-master:/etc/mysql/conf.d/
+     state: started
+  tags: mysql-master
